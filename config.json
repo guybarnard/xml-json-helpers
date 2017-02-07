@@ -1,0 +1,35 @@
+{
+    "xmlns": "http://www.w3.org/ns/widgets",
+    "id": "io.cordova.helloCordova",
+    "version": "2.0.0",
+    "name": "Hello Cordova",
+    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "author": {
+        "value": "Apache Cordova Team",
+        "href": "http://cordova.io",
+        "email": "dev@cordova.apache.org"
+    },
+    "content": {
+        "src": "index.html"
+    },
+    "access": {
+        "origin": "*"
+    },
+    "allow-intent": [
+        "http://*/*",
+        "https://*/*",
+        "tel:*",
+        "sms:*",
+        "mailto:*",
+        "geo:*",
+        "market:*"
+    ],
+    "preference": {
+        "loglevel": "DEBUG",
+        "splashscreen": "splash",
+        "backgroundColor": "0xFFF",
+        "loadUrlTimeoutValue": "20000",
+        "InAppBrowserStorageEnabled": "true",
+        "disallowOverscroll": "true"
+    }
+}
