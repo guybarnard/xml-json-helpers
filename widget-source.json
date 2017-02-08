@@ -1,0 +1,1001 @@
+{
+    "xs:schema": [
+        {
+            "xs:import": [
+                {
+                    "$schemaLocation": "common.xsd"
+                },
+                {
+                    "$namespace": "http://www.w3.org/XML/1998/namespace",
+                    "$schemaLocation": "xml.xsd"
+                }
+            ],
+            "$xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+            "$elementFormDefault": "qualified",
+            "$targetNamespace": "http://www.w3.org/ns/widgets",
+            "$xmlns:widgets": "http://www.w3.org/ns/widgets",
+            "xs:element": {
+                "$name": "access",
+                "xs:annotation": {
+                    "xs:documentation": "Defines the set of external domains the app is allowed to communicate with. The default value shown above allows it to access any server."
+                },
+                "xs:complexType": {
+                    "xs:attribute": [
+                        {
+                            "$name": "origin",
+                            "$use": "required",
+                            "xs:annotation": {
+                                "xs:documentation": "Defines the set of external domains the app is allowed to communicate with."
+                            },
+                            "xs:simpleType": {
+                                "xs:union": {
+                                    "$memberTypes": "xs:anyURI",
+                                    "xs:simpleType": {
+                                        "xs:restriction": {
+                                            "$base": "xs:string",
+                                            "xs:enumeration": {
+                                                "$value": "*"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "$name": "subdomains",
+                            "$type": "xs:boolean"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "xs:import": [
+                {
+                    "$namespace": "http://www.w3.org/XML/1998/namespace",
+                    "$schemaLocation": "xml.xsd"
+                },
+                {
+                    "$namespace": "http://www.w3.org/ns/widgets",
+                    "$schemaLocation": "widget.xsd"
+                }
+            ],
+            "$xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+            "$elementFormDefault": "qualified",
+            "$xmlns:widgets": "http://www.w3.org/ns/widgets"
+        },
+        {
+            "xs:import": [
+                {
+                    "$schemaLocation": "common.xsd"
+                },
+                {
+                    "$namespace": "http://www.w3.org/XML/1998/namespace",
+                    "$schemaLocation": "xml.xsd"
+                }
+            ],
+            "xs:element": [
+                {
+                    "$name": "plugin",
+                    "xs:annotation": {
+                        "xs:documentation": "Specifies details about what plugin to restore during a prepare."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$name": "name",
+                                "$type": "xs:string",
+                                "$use": "required",
+                                "xs:annotation": {
+                                    "xs:documentation": "Name of the plugin to be restored"
+                                }
+                            },
+                            {
+                                "$name": "spec",
+                                "$type": "xs:string",
+                                "$use": "required",
+                                "xs:annotation": {
+                                    "xs:documentation": "Details about the plugin to be restored. This could be a major.minor.patch version number, a directory containing the plugin or a url pointing to a git repository. This information will be used to retrieve the plugin code to restore from NPM, a local directory or a git repository"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$name": "allow-navigation",
+                    "xs:annotation": {
+                        "xs:documentation": "Controls which URLs the WebView itself can be navigated to. Applies to top-level navigations only"
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": {
+                            "$name": "href",
+                            "$type": "xs:string",
+                            "$use": "required",
+                            "xs:annotation": {
+                                "xs:documentation": "Defines the set of external domains the WebView is allowed to navigate to."
+                            }
+                        }
+                    }
+                },
+                {
+                    "$name": "allow-intent",
+                    "xs:annotation": {
+                        "xs:documentation": "Controls which URLs the app is allowed to ask the system to open. By default, no external URLs are allowed."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": {
+                            "$name": "href",
+                            "$type": "xs:string",
+                            "$use": "required",
+                            "xs:annotation": {
+                                "xs:documentation": "Defines which URLs the app is allowed to ask the system to open."
+                            }
+                        }
+                    }
+                },
+                {
+                    "$name": "engine",
+                    "xs:annotation": {
+                        "xs:documentation": "Specifies details about what platform to restore during a prepare."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$name": "name",
+                                "$type": "xs:string",
+                                "$use": "required",
+                                "xs:annotation": {
+                                    "xs:documentation": "Name of the platform to be restored"
+                                }
+                            },
+                            {
+                                "$name": "spec",
+                                "$type": "xs:string",
+                                "$use": "required",
+                                "xs:annotation": {
+                                    "xs:documentation": "Details about the platform to be restored. This could be a major.minor.patch version number, a directory containing the platform or a url pointing to a git repository. This information will be used to retrieve the platform code to restore from NPM, a local directory or a git repository"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$name": "platform",
+                    "xs:annotation": {
+                        "xs:documentation": "It is sometimes necessary to specify preferences or other elements specific to a particular platform. Use the element to specify configuration that should only appear in a single platform-specific config.xml file."
+                    },
+                    "xs:complexType": {
+                        "xs:choice": {
+                            "xs:element": [
+                                {
+                                    "$ref": "widgets:allow-intent"
+                                },
+                                {
+                                    "$ref": "widgets:allow-navigation"
+                                },
+                                {
+                                    "$ref": "widgets:plugin"
+                                },
+                                {
+                                    "$ref": "widgets:preference"
+                                },
+                                {
+                                    "$ref": "widgets:hook"
+                                }
+                            ],
+                            "$maxOccurs": "unbounded",
+                            "$minOccurs": "0"
+                        },
+                        "xs:attribute": {
+                            "$name": "name",
+                            "$type": "xs:string",
+                            "$use": "required",
+                            "xs:annotation": {
+                                "xs:documentation": "The platform whose preferences are being defined"
+                            }
+                        }
+                    }
+                },
+                {
+                    "$name": "hook",
+                    "xs:annotation": {
+                        "xs:documentation": "Represents your custom script which will be called by Cordova when certain action occurs (for example, after plugin is added or platform prepare logic is invoked). This is useful when you need to extend default Cordova functionality"
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$name": "type",
+                                "$use": "required",
+                                "xs:annotation": {
+                                    "xs:documentation": "Specifies the action during which the custom script is to be called."
+                                },
+                                "xs:simpleType": {
+                                    "xs:restriction": {
+                                        "xs:enumeration": [
+                                            {
+                                                "$value": "before_platform_add"
+                                            },
+                                            {
+                                                "$value": "after_platform_add"
+                                            },
+                                            {
+                                                "$value": "before_platform_rm"
+                                            },
+                                            {
+                                                "$value": "after_platform_rm"
+                                            },
+                                            {
+                                                "$value": "before_platform_ls"
+                                            },
+                                            {
+                                                "$value": "after_platform_ls"
+                                            },
+                                            {
+                                                "$value": "before_prepare"
+                                            },
+                                            {
+                                                "$value": "after_prepare"
+                                            },
+                                            {
+                                                "$value": "before_compile"
+                                            },
+                                            {
+                                                "$value": "after_compile"
+                                            },
+                                            {
+                                                "$value": "before_build"
+                                            },
+                                            {
+                                                "$value": "after_build"
+                                            },
+                                            {
+                                                "$value": "before_emulate"
+                                            },
+                                            {
+                                                "$value": "after_emulate"
+                                            },
+                                            {
+                                                "$value": "before_run"
+                                            },
+                                            {
+                                                "$value": "after_run"
+                                            },
+                                            {
+                                                "$value": "before_serve"
+                                            },
+                                            {
+                                                "$value": "after_serve"
+                                            },
+                                            {
+                                                "$value": "before_clean"
+                                            },
+                                            {
+                                                "$value": "after_clean"
+                                            },
+                                            {
+                                                "$value": "pre_package"
+                                            },
+                                            {
+                                                "$value": "before_plugin_add"
+                                            },
+                                            {
+                                                "$value": "after_plugin_add"
+                                            },
+                                            {
+                                                "$value": "before_plugin_rm"
+                                            },
+                                            {
+                                                "$value": "after_plugin_rm"
+                                            },
+                                            {
+                                                "$value": "before_plugin_ls"
+                                            },
+                                            {
+                                                "$value": "after_plugin_ls"
+                                            },
+                                            {
+                                                "$value": "before_plugin_search"
+                                            },
+                                            {
+                                                "$value": "after_plugin_search"
+                                            },
+                                            {
+                                                "$value": "before_plugin_install"
+                                            },
+                                            {
+                                                "$value": "after_plugin_install"
+                                            },
+                                            {
+                                                "$value": "before_plugin_uninstall"
+                                            }
+                                        ],
+                                        "$base": "xs:string"
+                                    }
+                                }
+                            },
+                            {
+                                "$name": "source",
+                                "$type": "xs:string",
+                                "$use": "required",
+                                "xs:annotation": {
+                                    "xs:documentation": "Specifies the location of the script to be called when a specific action occurs"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            "$xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+            "$elementFormDefault": "qualified",
+            "$targetNamespace": "http://www.w3.org/ns/widgets",
+            "$xmlns:widgets": "http://www.w3.org/ns/widgets"
+        },
+        {
+            "xs:import": [
+                {
+                    "$schemaLocation": "common.xsd"
+                },
+                {
+                    "$namespace": "http://www.w3.org/XML/1998/namespace",
+                    "$schemaLocation": "xml.xsd"
+                }
+            ],
+            "xs:element": [
+                {
+                    "$name": "widget",
+                    "xs:annotation": {
+                        "xs:documentation": "Root element of the config.xml document."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$ref": "xml:lang"
+                            },
+                            {
+                                "$name": "id",
+                                "$type": "xs:anyURI",
+                                "xs:annotation": {
+                                    "xs:documentation": "Specifies the applications reverse-domain identifier"
+                                }
+                            },
+                            {
+                                "$name": "version",
+                                "xs:annotation": {
+                                    "xs:documentation": "Full version number expressed in major/minor/patch notation"
+                                }
+                            },
+                            {
+                                "$name": "height",
+                                "$type": "xs:positiveInteger"
+                            },
+                            {
+                                "$name": "width",
+                                "$type": "xs:positiveInteger"
+                            },
+                            {
+                                "$name": "viewmodes",
+                                "xs:simpleType": {
+                                    "xs:list": {
+                                        "$itemType": "widgets:group.listName"
+                                    }
+                                }
+                            },
+                            {
+                                "$name": "android-versionCode",
+                                "$type": "xs:string",
+                                "$use": "optional",
+                                "xs:annotation": {
+                                    "xs:documentation": "Alternative version for Android. Sets the version code for the application"
+                                }
+                            },
+                            {
+                                "$name": "ios-CFBundleVersion",
+                                "$type": "xs:string",
+                                "$use": "optional",
+                                "xs:annotation": {
+                                    "xs:documentation": "Alternative version for iOS"
+                                }
+                            },
+                            {
+                                "$name": "osx-CFBundleVersion",
+                                "$type": "xs:string",
+                                "$use": "optional",
+                                "xs:annotation": {
+                                    "xs:documentation": "Alternative version for OS X"
+                                }
+                            },
+                            {
+                                "$name": "windows-packageVersion",
+                                "$type": "xs:string",
+                                "$use": "optional",
+                                "xs:annotation": {
+                                    "xs:documentation": "Alternative version for Windows"
+                                }
+                            },
+                            {
+                                "$name": "packageName",
+                                "$type": "xs:string",
+                                "$use": "optional",
+                                "xs:annotation": {
+                                    "xs:documentation": "Package name for Windows defaults to Cordova.Example, if not set"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$name": "name",
+                    "xs:annotation": {
+                        "xs:documentation": "Specifies the app's formal name, as it appears on the device's home screen and within app-store interfaces"
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$ref": "xml:lang"
+                            },
+                            {
+                                "$name": "dir",
+                                "xs:simpleType": {
+                                    "xs:restriction": {
+                                        "xs:enumeration": [
+                                            {
+                                                "$value": "ltr"
+                                            },
+                                            {
+                                                "$value": "rtl"
+                                            },
+                                            {
+                                                "$value": "rlo"
+                                            },
+                                            {
+                                                "$value": "lro"
+                                            }
+                                        ],
+                                        "$base": "xs:token"
+                                    }
+                                }
+                            },
+                            {
+                                "$name": "short"
+                            }
+                        ],
+                        "$mixed": "true"
+                    }
+                },
+                {
+                    "$name": "description",
+                    "xs:annotation": {
+                        "xs:documentation": "Specifies metadata that may appear within app-store listings."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$ref": "xml:lang"
+                            },
+                            {
+                                "$name": "dir",
+                                "xs:simpleType": {
+                                    "xs:restriction": {
+                                        "xs:enumeration": [
+                                            {
+                                                "$value": "ltr"
+                                            },
+                                            {
+                                                "$value": "rtl"
+                                            },
+                                            {
+                                                "$value": "rlo"
+                                            },
+                                            {
+                                                "$value": "lro"
+                                            }
+                                        ],
+                                        "$base": "xs:token"
+                                    }
+                                }
+                            }
+                        ],
+                        "$mixed": "true"
+                    }
+                },
+                {
+                    "$name": "icon",
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$name": "src",
+                                "$use": "required",
+                                "$type": "xs:anyURI"
+                            },
+                            {
+                                "$name": "height",
+                                "$type": "xs:positiveInteger"
+                            },
+                            {
+                                "$name": "width",
+                                "$type": "xs:positiveInteger"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$name": "author",
+                    "xs:annotation": {
+                        "xs:documentation": "Specifies contact information that may appear within app-store listings."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$ref": "xml:lang"
+                            },
+                            {
+                                "$name": "dir",
+                                "xs:simpleType": {
+                                    "xs:restriction": {
+                                        "xs:enumeration": [
+                                            {
+                                                "$value": "ltr"
+                                            },
+                                            {
+                                                "$value": "rtl"
+                                            },
+                                            {
+                                                "$value": "rlo"
+                                            },
+                                            {
+                                                "$value": "lro"
+                                            }
+                                        ],
+                                        "$base": "xs:token"
+                                    }
+                                }
+                            },
+                            {
+                                "$name": "href",
+                                "$type": "xs:anyURI",
+                                "xs:annotation": {
+                                    "xs:documentation": "Website of the author"
+                                }
+                            },
+                            {
+                                "$name": "email",
+                                "xs:annotation": {
+                                    "xs:documentation": "Email of the author"
+                                },
+                                "xs:simpleType": {
+                                    "xs:restriction": {
+                                        "$base": "xs:string",
+                                        "xs:pattern": {
+                                            "$value": ".+@.+"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "$mixed": "true"
+                    }
+                },
+                {
+                    "$name": "license",
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$ref": "xml:lang"
+                            },
+                            {
+                                "$name": "dir",
+                                "xs:simpleType": {
+                                    "xs:restriction": {
+                                        "xs:enumeration": [
+                                            {
+                                                "$value": "ltr"
+                                            },
+                                            {
+                                                "$value": "rtl"
+                                            },
+                                            {
+                                                "$value": "rlo"
+                                            },
+                                            {
+                                                "$value": "lro"
+                                            }
+                                        ],
+                                        "$base": "xs:token"
+                                    }
+                                }
+                            },
+                            {
+                                "$name": "href",
+                                "$type": "xs:anyURI"
+                            }
+                        ],
+                        "$mixed": "true"
+                    }
+                },
+                {
+                    "$name": "content",
+                    "xs:annotation": {
+                        "xs:documentation": "Defines the app's starting page in the top-level web assets directory. The default value is index.html, which customarily appears in a project's top-level www directory."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$name": "src",
+                                "$use": "required",
+                                "$type": "xs:anyURI",
+                                "xs:annotation": {
+                                    "xs:documentation": "Defines the app's starting page in the top-level web assets directory. The default value is index.html."
+                                }
+                            },
+                            {
+                                "$name": "type"
+                            },
+                            {
+                                "$name": "encoding"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$name": "feature",
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$name": "name",
+                                "$use": "required",
+                                "$type": "xs:anyURI"
+                            },
+                            {
+                                "$name": "required",
+                                "$type": "xs:boolean"
+                            }
+                        ],
+                        "xs:sequence": {
+                            "xs:element": {
+                                "$minOccurs": "0",
+                                "$maxOccurs": "unbounded",
+                                "$ref": "widgets:param"
+                            }
+                        }
+                    }
+                },
+                {
+                    "$name": "param",
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$name": "name",
+                                "$use": "required"
+                            },
+                            {
+                                "$name": "value",
+                                "$use": "required"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "$name": "preference",
+                    "xs:annotation": {
+                        "xs:documentation": "Sets various options as pairs of name/value attributes. Each preference's name is case-insensitive. Many preferences are unique to specific platforms."
+                    },
+                    "xs:complexType": {
+                        "xs:attribute": [
+                            {
+                                "$ref": "xml:lang"
+                            },
+                            {
+                                "$name": "name",
+                                "$use": "required",
+                                "xs:simpleType": {
+                                    "xs:restriction": {
+                                        "xs:enumeration": [
+                                            {
+                                                "$value": "AllowInlineMediaPlayback"
+                                            },
+                                            {
+                                                "$value": "AndroidLaunchMode"
+                                            },
+                                            {
+                                                "$value": "android-maxSdkVersion"
+                                            },
+                                            {
+                                                "$value": "android-targetSdkVersion"
+                                            },
+                                            {
+                                                "$value": "AppendUserAgent"
+                                            },
+                                            {
+                                                "$value": "BackgroundColor"
+                                            },
+                                            {
+                                                "$value": "BackupWebStorage"
+                                            },
+                                            {
+                                                "$value": "ChildBrowser"
+                                            },
+                                            {
+                                                "$value": "CordovaWebViewEngine"
+                                            },
+                                            {
+                                                "$value": "DefaultVolumeStream"
+                                            },
+                                            {
+                                                "$value": "DisallowOverscroll"
+                                            },
+                                            {
+                                                "$value": "EnableViewportScale"
+                                            },
+                                            {
+                                                "$value": "EnableWebGL"
+                                            },
+                                            {
+                                                "$value": "ErrorUrl"
+                                            },
+                                            {
+                                                "$value": "FullScreen"
+                                            },
+                                            {
+                                                "$value": "GapBetweenPages"
+                                            },
+                                            {
+                                                "$value": "HideKeyboardFormAccessoryBar"
+                                            },
+                                            {
+                                                "$value": "HideMousePointer"
+                                            },
+                                            {
+                                                "$value": "InAppBrowserStorageEnabled"
+                                            },
+                                            {
+                                                "$value": "KeepRunning"
+                                            },
+                                            {
+                                                "$value": "KeyboardDisplayRequiresUserAction"
+                                            },
+                                            {
+                                                "$value": "LoadUrlTimeoutValue"
+                                            },
+                                            {
+                                                "$value": "LoadingDialog"
+                                            },
+                                            {
+                                                "$value": "LogLevel"
+                                            },
+                                            {
+                                                "$value": "MediaPlaybackAllowsAirPlay"
+                                            },
+                                            {
+                                                "$value": "MediaPlaybackRequiresUserAction"
+                                            },
+                                            {
+                                                "$value": "Min/Max Version"
+                                            },
+                                            {
+                                                "$value": "Orientation"
+                                            },
+                                            {
+                                                "$value": "OSXLocalStoragePath"
+                                            },
+                                            {
+                                                "$value": "OverrideUserAgent"
+                                            },
+                                            {
+                                                "$value": "PageLength"
+                                            },
+                                            {
+                                                "$value": "PaginationBreakingMode"
+                                            },
+                                            {
+                                                "$value": "PaginationMode"
+                                            },
+                                            {
+                                                "$value": "PopupBlocker"
+                                            },
+                                            {
+                                                "$value": "SetFullscreen"
+                                            },
+                                            {
+                                                "$value": "ShowTitle"
+                                            },
+                                            {
+                                                "$value": "Suppresses3DTouchGesture"
+                                            },
+                                            {
+                                                "$value": "SuppressesIncrementalRendering"
+                                            },
+                                            {
+                                                "$value": "SuppressesLongPressGesture"
+                                            },
+                                            {
+                                                "$value": "TopActivityIndicator"
+                                            },
+                                            {
+                                                "$value": "UIWebViewDecelerationSpeed"
+                                            },
+                                            {
+                                                "$value": "WebSecurity"
+                                            },
+                                            {
+                                                "$value": "WindowSize"
+                                            },
+                                            {
+                                                "$value": "WindowsDefaultUriPrefix"
+                                            },
+                                            {
+                                                "$value": "WindowsStoreDisplayName"
+                                            },
+                                            {
+                                                "$value": "WindowsStoreIdentityName"
+                                            },
+                                            {
+                                                "$value": "WindowsStorePublisherName"
+                                            },
+                                            {
+                                                "$value": "WindowsToastCapable"
+                                            },
+                                            {
+                                                "$value": "deployment-target"
+                                            },
+                                            {
+                                                "$value": "target-device"
+                                            },
+                                            {
+                                                "$value": "windows-phone-target-version"
+                                            },
+                                            {
+                                                "$value": "windows-target-version"
+                                            }
+                                        ],
+                                        "$base": "xs:string"
+                                    }
+                                }
+                            },
+                            {
+                                "$name": "value"
+                            },
+                            {
+                                "$name": "readonly",
+                                "$type": "xs:boolean"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "$xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+            "$elementFormDefault": "qualified",
+            "$targetNamespace": "http://www.w3.org/ns/widgets",
+            "$xmlns:widgets": "http://www.w3.org/ns/widgets",
+            "xs:simpleType": {
+                "$name": "group.listName",
+                "xs:restriction": {
+                    "xs:enumeration": [
+                        {
+                            "$value": "floating"
+                        },
+                        {
+                            "$value": "windowed"
+                        },
+                        {
+                            "$value": "maximized"
+                        },
+                        {
+                            "$value": "fullscreen"
+                        },
+                        {
+                            "$value": "minimized"
+                        }
+                    ],
+                    "$base": "xs:string"
+                }
+            },
+            "xs:complexType": {
+                "$name": "group.widgetContent",
+                "xs:choice": {
+                    "xs:element": [
+                        {
+                            "$ref": "widgets:access"
+                        },
+                        {
+                            "$ref": "widgets:plugin"
+                        },
+                        {
+                            "$ref": "widgets:allow-navigation"
+                        },
+                        {
+                            "$ref": "widgets:allow-intent"
+                        },
+                        {
+                            "$ref": "widgets:hook"
+                        },
+                        {
+                            "$ref": "widgets:engine"
+                        },
+                        {
+                            "$ref": "widgets:platform"
+                        }
+                    ],
+                    "$minOccurs": "0",
+                    "$maxOccurs": "unbounded",
+                    "xs:choice": {
+                        "xs:element": [
+                            {
+                                "$ref": "widgets:name"
+                            },
+                            {
+                                "$ref": "widgets:description"
+                            },
+                            {
+                                "$ref": "widgets:icon"
+                            },
+                            {
+                                "$ref": "widgets:author"
+                            },
+                            {
+                                "$ref": "widgets:license"
+                            },
+                            {
+                                "$ref": "widgets:content"
+                            },
+                            {
+                                "$ref": "widgets:feature"
+                            },
+                            {
+                                "$ref": "widgets:preference"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "xs:include": [
+                {
+                    "$schemaLocation": "packaging-configuration.xsd"
+                },
+                {
+                    "$schemaLocation": "access.xsd"
+                },
+                {
+                    "$schemaLocation": "cordova.xsd"
+                }
+            ],
+            "xs:import": [
+                {
+                    "$schemaLocation": "common.xsd"
+                },
+                {
+                    "$namespace": "http://www.w3.org/XML/1998/namespace",
+                    "$schemaLocation": "xml.xsd"
+                }
+            ],
+            "$xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+            "$elementFormDefault": "qualified",
+            "$targetNamespace": "http://www.w3.org/ns/widgets",
+            "$xmlns:widgets": "http://www.w3.org/ns/widgets"
+        },
+        {
+            "xs:import": [
+                {
+                    "$schemaLocation": "common.xsd"
+                },
+                {
+                    "$namespace": "http://www.w3.org/ns/widgets",
+                    "$schemaLocation": "widget.xsd"
+                }
+            ],
+            "$xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+            "$elementFormDefault": "qualified",
+            "$targetNamespace": "http://www.w3.org/XML/1998/namespace",
+            "$xmlns:widgets": "http://www.w3.org/ns/widgets",
+            "xs:attribute": {
+                "$name": "lang",
+                "$type": "xs:language"
+            }
+        }
+    ],
+    "$xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+    "$elementFormDefault": "qualified",
+    "$targetNamespace": "http://www.w3.org/ns/widgets",
+    "$xmlns:widgets": "http://www.w3.org/ns/widgets"
+}

@@ -1,5 +1,5 @@
 {
-    "xmlns": "http://www.w3.org/ns/widgets",
+    "$xmlns": "http://www.w3.org/ns/widgets",
     "id": "io.cordova.helloCordova",
     "version": "2.0.0",
     "name": "Hello Cordova",
@@ -27,9 +27,28 @@
     "preference": {
         "loglevel": "DEBUG",
         "splashscreen": "splash",
-        "backgroundColor": "0xFFF",
-        "loadUrlTimeoutValue": "20000",
-        "InAppBrowserStorageEnabled": "true",
-        "disallowOverscroll": "true"
+        "backgroundColor": 0,
+        "loadUrlTimeoutValue": 20000,
+        "InAppBrowserStorageEnabled": true,
+        "disallowOverscroll": true
+    },
+    "platform": {
+        "android": {
+            "preference": {
+                "Fullscreen": true
+            }
+        },
+        "macos": {
+            "preference": {
+                "splashscreen": true
+            }
+        }
+    },
+    "engine": {
+        "android": "https://github.com/apache/cordova-android.git#5.1.1",
+        "ios": "^4.0.0"
+    },
+    "plugin": {
+        "cordova-plugin-device": "^1.1.0"
     }
 }

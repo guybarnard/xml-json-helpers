@@ -54,5 +54,13 @@
       <preference name="loadUrlTimeoutValue" value="20000" />
       <preference name="InAppBrowserStorageEnabled" value="true" />
       <preference name="disallowOverscroll" value="true" />
-
+<platform name="android">
+   <preference name="Fullscreen" value="true" />
+</platform>
+<platform name="macos">
+   <preference name="splashscreen" value="true" />
+</platform>
+<engine name="android" spec="https://github.com/apache/cordova-android.git#5.1.1" />
+<engine name="ios" spec="^4.0.0" />
+<plugin name="cordova-plugin-device" spec="^1.1.0" />
 </widget>

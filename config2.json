@@ -1,0 +1,103 @@
+{
+    "$xmlns": "http://www.w3.org/ns/widgets",
+    "$id": "io.cordova.helloCordova",
+    "$version": "2.0.0",
+    "name": "Hello Cordova",
+    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "author": {
+        "value": "Apache Cordova Team",
+        "$href": "http://cordova.io",
+        "$email": "dev@cordova.apache.org"
+    },
+    "content": {
+        "$src": "index.html"
+    },
+    "access": {
+        "$origin": "*"
+    },
+    "allow-intent": [
+        {
+            "$href": "http://*/*"
+        },
+        {
+            "$href": "https://*/*"
+        },
+        {
+            "$href": "tel:*"
+        },
+        {
+            "$href": "sms:*"
+        },
+        {
+            "$href": "mailto:*"
+        },
+        {
+            "$href": "geo:*"
+        },
+        {
+            "$href": "market:*"
+        }
+    ],
+    "preference": [
+        {
+            "$name": "loglevel",
+            "$value": "DEBUG"
+        },
+        {
+            "$name": "splashscreen",
+            "$value": "splash"
+        },
+        {
+            "$name": "backgroundColor",
+            "$value": 0
+        },
+        {
+            "$name": "loadUrlTimeoutValue",
+            "$value": 20000
+        },
+        {
+            "$name": "InAppBrowserStorageEnabled",
+            "$value": true
+        },
+        {
+            "$name": "disallowOverscroll",
+            "$value": true
+        }
+    ],
+    "platform": [
+        {
+            "preference": [
+                {
+                    "$name": "Fullscreen",
+                    "$value": true
+                }
+            ],
+            "$name": "android"
+        },
+        {
+            "preference": [
+                {
+                    "$name": "splashscreen",
+                    "$value": true
+                }
+            ],
+            "$name": "macos"
+        }
+    ],
+    "engine": [
+        {
+            "$name": "android",
+            "$spec": "https://github.com/apache/cordova-android.git#5.1.1"
+        },
+        {
+            "$name": "ios",
+            "$spec": "^4.0.0"
+        }
+    ],
+    "plugin": [
+        {
+            "$name": "cordova-plugin-device",
+            "$spec": "^1.1.0"
+        }
+    ]
+}
